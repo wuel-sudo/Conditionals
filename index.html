@@ -93,6 +93,22 @@ textarea { min-height: 70px; }
   th, td { padding: 5px 7px; }
 }
 </style>
+<style>
+/* Larger Wordle letter boxes for laptop projection */
+#board { gap: 12px !important; margin: 22px auto !important; }
+#board .row { grid-template-columns: repeat(5, 82px) !important; gap: 12px !important; }
+#board .t {
+  width: 82px !important;
+  height: 82px !important;
+  font-size: 2.35rem !important;
+  border-width: 3px !important;
+  font-family: Verdana, Geneva, sans-serif !important;
+}
+@media (max-height: 700px) {
+  #board .row { grid-template-columns: repeat(5, 70px) !important; gap: 9px !important; }
+  #board .t { width: 70px !important; height: 70px !important; }
+}
+</style>
 </head><body><header class="top"><span aria-hidden="true"></span><button id="fullBtn" type="button" aria-label="Toggle full screen">⛶ Full Screen</button></header>
 <div class="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="15" id="pbar"><i id="pfill"></i></div>
 <div class="pinfo" id="pinfo" aria-live="polite"></div>
@@ -150,8 +166,7 @@ function typePage(k,cl){var t=T[k];return"<span class='banner "+cl+"'>"+(cl==="r
 function ovCard(id,cl,n,d){return"<button class='opt-card "+cl+"' data-go='"+id+"'><b>"+n+"</b>"+d+" →</button>"}
 var PG=[
 {id:"home",n:"Wordle",h:"<h2>Wordle: Crack the Code</h2><div id='hm'></div>"},
-{id:"motivation",n:"Discuss the Clues",nm:"View Objectives",h:"<span class='banner'>Wordle Discussion</span><h2>What connects the three words?</h2><p>Look at the words you discovered: <b>CAUSE</b>, <b>CHOSE</b>, and <b>MAYBE</b>.</p><div class='grid'><div class='box'><h3>Guide Questions</h3><ol><li>What does each word mean?</li><li>How can a cause lead to a result?</li><li>How can a choice affect what happens next?</li><li>What does maybe tell us about a possible situation?</li></ol></div><div class='box'><h3>Connect the Ideas</h3><p>All three words can help us talk about conditions, choices, possibilities, and results. We use different sentence patterns to express these relationships.</p><p><b>What kind of sentences do you think we use to express a condition and its possible result?</b></p></div></div>"},
-{id:"objectives",n:"Objectives",h:"<span class='banner'>Learning Objectives</span><h2>At the end of the lesson, students should be able to:</h2><div class='box'><ol><li>identify the four types of conditional sentences;</li><li>differentiate real and unreal conditionals based on their meanings and uses;</li><li>construct grammatically correct conditional sentences using the appropriate verb forms; and</li><li>apply conditional sentences in meaningful situations.</li></ol></div>"},
+{id:"objectives",n:"Objectives",h:"<span class='banner'>Learning Objectives</span><h2>At the end of the lesson, students should be able to:</h2><div class='box'><ol><li>identify the four types of conditional sentences;</li><li>differentiate the four types based on their meanings and uses; and</li><li>construct grammatically correct conditional sentences using the appropriate verb forms.</li></ol></div>"},
 {id:"over",n:"Discussion",h:"<h2>What is a conditional sentence?</h2><div class='grid'><div><p>A conditional sentence describes the result of a certain condition. The <b class='vi'>if-clause</b> (conditional clause) states the condition. The <b class='vm'>main clause</b> (result clause) states what follows from it. The order of clauses does not change the meaning.</p><div class='bd'><div class='i'><small>If-clause · condition</small>If you <b class='vi'>study</b> hard,</div><div class='ar' aria-hidden='true'>→</div><div class='m'><small>Main clause · result</small>you <b class='vm'>will pass</b>.</div></div><p>Reversed: “You will pass if you study hard.” When the if-clause comes first, a comma follows it. The patterns in this lesson are the standard basic patterns; other combinations exist.</p></div><div class='box'><h3>Two major categories</h3><p><b>Real conditionals</b> treat the condition as true or possible: the zero and first conditionals.</p><p><b>Unreal conditionals</b> treat the condition as imagined, unlikely, or contrary to fact: the second and third conditionals.</p></div></div>",nm:"Real Conditionals"},
 {id:"real",n:"Real",cl:"r",h:"<span class='banner r'>Real Conditionals</span><h2>True or possible situations</h2><p>In real conditionals, the condition is treated as true or possible. This section has two lessons. Choose one, or continue in order.</p><div class='grid'>"+ovCard("zero","","Zero Conditional","General truths, facts, and regular results")+ovCard("first","","First Conditional","Possible future situations and their likely results")+"</div>"},
 {id:"zero",n:"Zero",cl:"r",h:typePage("zero","r")},
@@ -221,7 +236,7 @@ function key(k){if(over)return;$("#msg").textContent="";if(k==="BACK"){cur=cur.s
 function grade(){var a=W[wi].w,res=["a","a","a","a","a"],left={},i;for(i=0;i<5;i++){if(cur[i]===a[i])res[i]="c";else left[a[i]]=(left[a[i]]||0)+1}for(i=0;i<5;i++){if(res[i]!=="c"&&left[cur[i]]>0){res[i]="p";left[cur[i]]--}}
 var t=$("#board").children[row].children,rk={a:1,p:2,c:3};for(i=0;i<5;i++){t[i].className="t "+res[i];var l=cur[i];if(!keys[l]||rk[res[i]]>rk[keys[l]])keys[l]=res[i]}
 if(cur===a){over=true;unlock()}else if(row===5){over=true;$("#msg").textContent="The word was "+a+".";unlock()}else{row++;cur=""}}
-function unlock(){var s=$("#scn"),last=wi===W.length-1;s.hidden=false;s.innerHTML="<p><b>"+W[wi].w+"</b> — Correct!</p><button class='btn' id='nx'>"+(last?"Discuss the clues":"Next word")+"</button>";$("#nx").onclick=function(){if(last){go("motivation")}else{wi++;build()}}}
+function unlock(){var s=$("#scn"),last=wi===W.length-1;s.hidden=false;s.innerHTML="<p><b>"+W[wi].w+"</b> — Correct!</p><button class='btn' id='nx'>"+(last?"View Objectives":"Next word")+"</button>";$("#nx").onclick=function(){if(last){go("objectives")}else{wi++;build()}}}
 document.addEventListener("keydown",function(e){
   if($("#pg-home").hidden || e.target.tagName==="TEXTAREA" || e.target.tagName==="INPUT" ||
      e.target.isContentEditable || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;

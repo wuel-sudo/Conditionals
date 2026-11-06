@@ -179,6 +179,35 @@ main { display: flex; flex-direction: column; justify-content: flex-start; }
 }
 #pages { overscroll-behavior: contain; }
 </style>
+<style>
+/* Prevent lesson sections from appearing cut off behind the page controls. */
+main#pages {
+  scroll-behavior: auto !important;
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+  padding-top: 14px !important;
+  padding-bottom: 28px !important;
+}
+main#pages::-webkit-scrollbar { width: 16px; }
+main#pages::-webkit-scrollbar-thumb {
+  background: #9a9185;
+  border: 3px solid var(--paper);
+  border-radius: 12px;
+}
+main#pages::-webkit-scrollbar-track { background: rgba(120,105,85,.10); }
+main#pages > .page:not([hidden]) {
+  width: 100%;
+  min-height: min-content;
+  padding-top: 4px;
+  padding-bottom: 14px;
+}
+.page .box, .page .grid, .page .pager {
+  break-inside: avoid;
+}
+@media (min-width: 1200px) {
+  main#pages { max-width: 1740px !important; padding-left: 2.5vw !important; padding-right: 2.5vw !important; }
+}
+</style>
 </head><body><header class="top"><span aria-hidden="true"></span><button id="fullBtn" type="button" aria-label="Toggle full screen">⛶ Full Screen</button></header>
 <div class="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="15" id="pbar"><i id="pfill"></i></div>
 <div class="pinfo" id="pinfo" aria-live="polite"></div>
@@ -266,7 +295,7 @@ function fitActivePage(){
 }
 
 function go(id){nav.style.display=(id==="home"||id==="motivation")?"none":"flex";PG.forEach(function(p,i){var on=p.id===id;$("#pg-"+p.id).hidden=!on;if(on)cur_i=i});nav.querySelectorAll("button").forEach(function(b){if(b.dataset.id===id)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
-$("#pfill").style.width=((cur_i+1)/N*100)+"%";$("#pbar").setAttribute("aria-valuenow",cur_i+1);$("#pinfo").textContent="Page "+(cur_i+1)+" of "+N+" · "+PG[cur_i].n;window.scrollTo(0,0);fitActivePage();var hd=$("#pg-"+id+" h1,#pg-"+id+" h2");if(hd){hd.tabIndex=-1;hd.focus({preventScroll:true})}}
+$("#pfill").style.width=((cur_i+1)/N*100)+"%";$("#pbar").setAttribute("aria-valuenow",cur_i+1);$("#pinfo").textContent="Page "+(cur_i+1)+" of "+N+" · "+PG[cur_i].n;window.scrollTo(0,0);fitActivePage();requestAnimationFrame(function(){var pane=$("#pages");if(pane)pane.scrollTo({top:0,left:0,behavior:"auto"});});var hd=$("#pg-"+id+" h1,#pg-"+id+" h2");if(hd){hd.tabIndex=-1;hd.focus({preventScroll:true})}}
 document.addEventListener("click",function(e){var g=e.target.closest("[data-go]");if(g)go(g.dataset.go)});
 function toggleFullscreen(){
   if(!document.fullscreenElement){

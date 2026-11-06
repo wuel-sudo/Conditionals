@@ -33,7 +33,30 @@ ul{margin:.3em 0;padding-left:1.2em}.scroll{overflow-x:auto}table{border-collaps
 .opt{display:block;width:100%;text-align:left;font:inherit;background:var(--card);border:1px solid var(--line);padding:13px 16px;margin:8px 0;border-radius:4px;cursor:pointer;color:var(--ink)}.opt:hover:not(:disabled){border-color:var(--brown)}.opt.ok{background:var(--greenbg);border-color:var(--sage)}.opt.no{background:var(--badbg);border-color:var(--bad)}
 .fb{margin-top:8px;padding:8px 12px;background:var(--greenbg);border-left:5px solid var(--sage)}textarea{width:100%;font:inherit;padding:14px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:4px;min-height:100px}
 @media(max-width:900px){.bd{grid-template-columns:1fr}.bd .ar{transform:rotate(90deg);height:1.6rem}.grid{grid-template-columns:1fr}}
-</style></head><body><header class="top"><b id="brand">Word Detective · Class Challenge</b><button id="homeBtn" aria-label="Go to the Wordle game">Wordle</button><button id="fullBtn" type="button" aria-label="Toggle full screen">⛶ Full Screen</button></header>
+</style><style>
+/* Laptop edition: larger Verdana typography and no on-screen keyboard */
+html, body, body * {
+  font-family: Verdana, Geneva, sans-serif !important;
+}
+body {
+  font-size: 21px !important;
+  line-height: 1.65 !important;
+}
+h1 { font-size: clamp(2.2rem, 4vw, 3.2rem) !important; }
+h2 { font-size: clamp(1.8rem, 3vw, 2.5rem) !important; }
+h3 { font-size: clamp(1.45rem, 2.4vw, 1.9rem) !important; }
+p, li, label, input, textarea, select, button, .question, .option,
+.card, .lesson-card, .content, .description {
+  font-size: 1.12em !important;
+}
+button, .btn {
+  padding: 14px 22px !important;
+}
+[class*="keyboard"], [id*="keyboard"], .keys, .key-row, .key-row-container {
+  display: none !important;
+}
+</style>
+</head><body><header class="top"><b id="brand">Word Detective · Class Challenge</b><button id="homeBtn" aria-label="Go to the Wordle game">Wordle</button><button id="fullBtn" type="button" aria-label="Toggle full screen">⛶ Full Screen</button></header>
 <div class="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="14" id="pbar"><i id="pfill"></i></div>
 <div class="pinfo" id="pinfo" aria-live="polite"></div>
 <nav id="nav" aria-label="Lesson pages"></nav>

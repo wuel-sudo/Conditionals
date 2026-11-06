@@ -109,6 +109,49 @@ textarea { min-height: 70px; }
   #board .t { width: 70px !important; height: 70px !important; }
 }
 </style>
+<style>
+/* Center lesson content when the laptop viewport has extra room */
+main { display: flex; flex-direction: column; justify-content: flex-start; }
+.page {
+  width: min(100%, 1380px);
+  min-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: clamp(18px, 3vh, 42px) clamp(16px, 3vw, 48px);
+}
+.page > h1, .page > h2, .page > .banner,
+.page > p { text-align: center; }
+.page > .box, .page > .grid, .page > .bd,
+.page > .scroll, .page > table {
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.page > .pager { width: 100%; max-width: 1240px; margin: 18px auto 0; }
+#pg-objectives { text-align: center; }
+#pg-objectives h2 { font-size: clamp(2rem, 3vw, 2.8rem) !important; margin-bottom: 22px; }
+#pg-objectives .box { max-width: 1050px; margin: 0 auto 18px; padding: clamp(24px, 3vw, 42px); text-align: left; }
+#pg-objectives li { font-size: 1.22em; line-height: 1.65; margin: 10px 0; }
+.page h2 { font-size: clamp(2rem, 3vw, 2.65rem) !important; }
+.page h3 { font-size: clamp(1.35rem, 2vw, 1.75rem) !important; }
+.page p, .page li, .page td, .page th { font-size: 1.12em; }
+.page .box { padding: clamp(20px, 2.4vw, 34px); }
+.page .pager button { font-size: 1.12em !important; padding: 13px 24px !important; }
+#pg-home { align-items: center; text-align: center; }
+#pg-home > p { max-width: 1050px; }
+#pg-home #hint { font-size: 1.2em; margin: 14px 0; }
+#pg-home #msg { font-size: 1.1em; }
+@media (max-height: 760px) {
+  .page { padding-top: 12px; padding-bottom: 12px; }
+  #pg-objectives h2 { font-size: 1.9rem !important; }
+  #pg-objectives .box { padding: 16px 24px; }
+  #pg-objectives li { margin: 6px 0; }
+}
+</style>
 </head><body><header class="top"><span aria-hidden="true"></span><button id="fullBtn" type="button" aria-label="Toggle full screen">⛶ Full Screen</button></header>
 <div class="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="15" id="pbar"><i id="pfill"></i></div>
 <div class="pinfo" id="pinfo" aria-live="polite"></div>

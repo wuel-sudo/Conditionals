@@ -152,6 +152,33 @@ main { display: flex; flex-direction: column; justify-content: flex-start; }
   #pg-objectives li { margin: 6px 0; }
 }
 </style>
+<style>
+/* Readability and keyboard navigation refinements */
+#pg-objectives h2 {
+  font-size: clamp(2.35rem, 3.8vw, 3.2rem) !important;
+  line-height: 1.2 !important;
+}
+#pg-objectives .box {
+  max-width: 1180px !important;
+  padding: clamp(30px, 4vw, 54px) !important;
+}
+#pg-objectives ol { padding-left: 1.35em; }
+#pg-objectives li {
+  font-size: clamp(1.35rem, 2vw, 1.75rem) !important;
+  line-height: 1.55 !important;
+  margin: 18px 0 !important;
+}
+.page h1, .page h2, .page h3,
+.page p, .page li, .page td, .page th,
+.page strong, .page b, .page .tag {
+  overflow-wrap: anywhere;
+}
+.page {
+  min-height: 100%;
+  height: auto;
+}
+#pages { overscroll-behavior: contain; }
+</style>
 </head><body><header class="top"><span aria-hidden="true"></span><button id="fullBtn" type="button" aria-label="Toggle full screen">⛶ Full Screen</button></header>
 <div class="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="15" id="pbar"><i id="pfill"></i></div>
 <div class="pinfo" id="pinfo" aria-live="polite"></div>
@@ -233,15 +260,9 @@ function fitActivePage(){
   var active=Array.prototype.find.call(PG,function(p){return !$("#pg-"+p.id).hidden});
   if(!active)return;
   var page=$("#pg-"+active.id), mainEl=$("#pages");
+  /* Keep text at full size. Short pages remain centered; long pages scroll naturally. */
   page.style.zoom="1";
-  requestAnimationFrame(function(){
-    var available=Math.max(240,mainEl.clientHeight-4);
-    var needed=page.scrollHeight;
-    var scale=Math.min(1,available/needed);
-    /* Preserve readable text; allow a little scrolling rather than shrinking too far. */
-    page.style.zoom=String(Math.max(.78,scale));
-    mainEl.scrollTop=0;
-  });
+  mainEl.scrollTop=0;
 }
 
 function go(id){nav.style.display=(id==="home"||id==="motivation")?"none":"flex";PG.forEach(function(p,i){var on=p.id===id;$("#pg-"+p.id).hidden=!on;if(on)cur_i=i});nav.querySelectorAll("button").forEach(function(b){if(b.dataset.id===id)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
@@ -292,5 +313,24 @@ document.addEventListener("keydown",function(e){
     e.preventDefault(); key(e.key.toUpperCase());
   }
 }, true);
+
+document.addEventListener("keydown", function(e) {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.repeat) return;
+  var target = e.target;
+  var tag = target && target.tagName ? target.tagName.toLowerCase() : "";
+  if (tag === "input" || tag === "textarea" || tag === "select" ||
+      (target && target.isContentEditable)) return;
+  if (tag === "button" || tag === "a") {
+    if (e.key === " " || e.key === "Enter") return;
+  }
+  if (e.key === "ArrowRight" || e.key === " ") {
+    e.preventDefault();
+    if (cur_i < N - 1) go(PG[cur_i + 1].id);
+  } else if (e.key === "ArrowLeft") {
+    e.preventDefault();
+    if (cur_i > 0) go(PG[cur_i - 1].id);
+  }
+}, true);
+
 build();go("home");window.addEventListener("resize",fitActivePage);document.addEventListener("fullscreenchange",fitActivePage);
 </script></body></html>
